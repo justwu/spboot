@@ -5,6 +5,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class MethodInjecter {
+
+    private Logger logger = LoggerFactory.getLogger("methodinject");
 
     //pointcut 表达式写法
     //  "execution(* com.just.demo.service.UserShoppingService.buy(..))&&args(bookname)"
@@ -52,6 +56,27 @@ public class MethodInjecter {
 
     @Pointcut("within(com.just.service.impl.*)")   //切点:所有接口的调用都拦截
     public void speedCut() {
+
+    }
+
+    @Pointcut("within(com.just.controller.*)")   //切点:所有接口的调用都拦截
+    public void controlerCut() {
+
+    }
+
+    @Around("controlerCut()")
+    public void controlSpeed(ProceedingJoinPoint joinPoint) {
+        long s1 = System.currentTimeMillis();
+        try {
+            joinPoint.proceed();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+
+        logger.info("方法" + methodSignature.getMethod().getName() + "执行时间 " + (System.currentTimeMillis() - s1) + "ms ! ");
+//        System.out.println("方法" + methodSignature.getMethod().getName() + "执行时间 " + (System.currentTimeMillis() - s1) + "ms !");
 
     }
 

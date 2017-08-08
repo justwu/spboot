@@ -12,29 +12,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Created by flyhigh on 2017/6/11.
  */
 @Controller
-@RequestMapping("/")
-public class IndexController {
+@RequestMapping("/price")
+public class PriceController {
     @Value("${r8path}")
     private String r8pth;
 
-    private Logger logger = LoggerFactory.getLogger(IndexController.class);
+    private Logger logger = LoggerFactory.getLogger(PriceController.class);
 
-    /**
-     * 测试hello
-     *
-     * @return
-     */
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public String hello(Model model) {
-        model.addAttribute("name", "Dear");
-        logger.info("访问hello方法");
-        return "hello";
-    }
-
-    @RequestMapping(value = "/rs", method = RequestMethod.GET)
+    @RequestMapping(value = "/order", method = RequestMethod.GET)
     public String rs(Model model) {
         model.addAttribute("name", "Dear");
-        logger.info("访问rs方法");
-        return "price/order";
+        return "priceorder";
     }
+
+
 }

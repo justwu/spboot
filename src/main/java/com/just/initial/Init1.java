@@ -1,5 +1,6 @@
 package com.just.initial;
 
+import com.just.dao.bean.SbRepositoryImpl;
 import com.just.dao.local.SbRepository;
 import com.just.pojo.Sbman;
 import com.just.utils.SpringUtil;
@@ -11,6 +12,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
+ * 实现CommandLineRunner 接口的类会在spring应用启动时进行初始化run方法order数值越低,优先级越高
  * Created by flyhigh on 2017/7/15.
  */
 @Component
@@ -22,6 +24,9 @@ public class Init1 implements CommandLineRunner {
     @Autowired
     SbRepository sbRepository;
 
+    @Autowired
+    SbRepositoryImpl sbRepositoryimpl;
+
     @Override
     public void run(String... strings) throws Exception {
         SbRepository sbRepository = SpringUtil.getBean(SbRepository.class);
@@ -29,6 +34,13 @@ public class Init1 implements CommandLineRunner {
         if (sbman == null) {
             System.out.println("没 找到");
         }
+        sbman.setName(Math.random() + "");
+        sbRepository.save(sbman);
+
+    /*    Sbman ss=new Sbman();
+        ss.setName("777");
+        ss.setAge(99);
+        sbRepositoryimpl.mergeSb("78");*/
 
         logger.info(this.getClass().getName() + " running id:" + sbman.getId() + "name :" + sbman.getName() + " age : " + sbman.getAge());
 

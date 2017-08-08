@@ -18,7 +18,7 @@ public class Init2 implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
 
-        logger.info(this.getClass().getName() + " running ");
+        logger.info(this.getClass().getName() + " 启动执行running ");
     }
 
 }
