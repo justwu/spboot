@@ -2,7 +2,7 @@ package com.just.initial;
 
 import com.just.dao.bean.SbRepositoryImpl;
 import com.just.dao.local.SbRepository;
-import com.just.pojo.Sbman;
+import com.just.entity.Sbman;
 import com.just.utils.SpringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,17 +32,18 @@ public class Init1 implements CommandLineRunner {
         SbRepository sbRepository = SpringUtil.getBean(SbRepository.class);
         Sbman sbman = sbRepository.findOne(5);
         if (sbman == null) {
-            System.out.println("没 找到");
+            logger.info("没找到");
+        } else {
+            sbman.setName(Math.random() + "");
+            sbRepository.save(sbman);
+            logger.info(this.getClass().getName() + " running id:" + sbman.getId() + "name :" + sbman.getName() + " age : " + sbman.getAge());
         }
-        sbman.setName(Math.random() + "");
-        sbRepository.save(sbman);
+
 
     /*    Sbman ss=new Sbman();
         ss.setName("777");
         ss.setAge(99);
         sbRepositoryimpl.mergeSb("78");*/
-
-        logger.info(this.getClass().getName() + " running id:" + sbman.getId() + "name :" + sbman.getName() + " age : " + sbman.getAge());
 
 
     }

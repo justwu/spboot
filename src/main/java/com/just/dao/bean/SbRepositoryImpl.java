@@ -1,6 +1,6 @@
 package com.just.dao.bean;
 
-import com.just.pojo.Sbman;
+import com.just.entity.Sbman;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

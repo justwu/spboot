@@ -65,11 +65,13 @@ public class MethodInjecter {
     }
 
     @Around("controlerCut()")
-    public void controlSpeed(ProceedingJoinPoint joinPoint) {
+    public Object controlSpeed(ProceedingJoinPoint joinPoint) {//注意. around拦截要返回拦截方法的返回值.否则会出现没结果返回的情况
         long s1 = System.currentTimeMillis();
+        Object object = null;
         try {
-            joinPoint.proceed();
+            object = joinPoint.proceed();
         } catch (Throwable throwable) {
+            logger.warn("出错咯");
             throwable.printStackTrace();
         }
 
@@ -77,15 +79,17 @@ public class MethodInjecter {
 
         logger.info("方法" + methodSignature.getMethod().getName() + "执行时间 " + (System.currentTimeMillis() - s1) + "ms ! ");
 //        System.out.println("方法" + methodSignature.getMethod().getName() + "执行时间 " + (System.currentTimeMillis() - s1) + "ms !");
+        return object;
 
     }
 
 
     @Around("speedCut()")
-    public void printSpeed(ProceedingJoinPoint joinPoint) {
+    public Object printSpeed(ProceedingJoinPoint joinPoint) {//注意. around拦截要返回拦截方法的返回值.否则会出现没结果返回的情况
         long s1 = System.currentTimeMillis();
+        Object object = null;
         try {
-            joinPoint.proceed();
+            object = joinPoint.proceed();
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
@@ -94,6 +98,7 @@ public class MethodInjecter {
 
 
         System.out.println("方法" + methodSignature.getMethod().getName() + "执行时间 " + (System.currentTimeMillis() - s1) + "ms !");
+        return object;
 
     }
 

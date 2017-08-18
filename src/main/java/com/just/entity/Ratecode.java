@@ -1,5 +1,4 @@
-package com.just.pojo;
-
+package com.just.entity;
 
 import com.just.utils.EntityUtil;
 
@@ -9,19 +8,19 @@ import java.util.Date;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "Factor2")
-public class Factor2 implements Serializable {
+@Table(name = "Ratecode")
+public class Ratecode implements Serializable {
     Date sdf = EntityUtil.stringToDate("1900-01-01");
     private Integer sqlid_p = 0;/* SQL主键 */
     private String section_p = "";/* 景区代码 */
-    private String code_p = "";/* 代码 */
-    private String desc_p = "";/* 描述 */
-    private String type_p = "";/* 代码中定义的组类型 */
-    private String header_p = "";/* 所属的factor组 */
+    private String code_p = "";/* 房价代码 */
+    private String desc_p = "";/* 房价描述 */
+    private Date startdate_p = sdf;/* 使用开始日期 */
+    private Date enddate_p = sdf;/* 使用结束日期 */
 
     @Id
-    @SequenceGenerator(name = "Factor", sequenceName = "Factor_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "Ratecode", sequenceName = "Ratecode_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "Ratecode")
     @Column(length = 10, nullable = false, name = "[sqlid]")
     public Integer getSqlid_p() {
         return sqlid_p;
@@ -58,21 +57,21 @@ public class Factor2 implements Serializable {
         this.desc_p = EntityUtil.cutOffStr(desc_p, this.getClass(), "desc_p");
     }
 
-    @Column(length = 8, nullable = true, name = "[type]")
-    public String getType_p() {
-        return EntityUtil.cutOffStr(type_p, this.getClass(), "type_p");
+    @Column(nullable = true, name = "[startdate]")
+    public Date getStartdate_p() {
+        return null == startdate_p ? EntityUtil.stringToDate("1900-01-01") : startdate_p;
     }
 
-    public void setType_p(String type_p) {
-        this.type_p = EntityUtil.cutOffStr(type_p, this.getClass(), "type_p");
+    public void setStartdate_p(Date startdate_p) {
+        this.startdate_p = null == startdate_p ? EntityUtil.stringToDate("1900-01-01") : startdate_p;
     }
 
-    @Column(length = 8, nullable = true, name = "[header]")
-    public String getHeader_p() {
-        return EntityUtil.cutOffStr(header_p, this.getClass(), "header_p");
+    @Column(nullable = true, name = "[enddate]")
+    public Date getEnddate_p() {
+        return null == enddate_p ? EntityUtil.stringToDate("1900-01-01") : enddate_p;
     }
 
-    public void setHeader_p(String header_p) {
-        this.header_p = EntityUtil.cutOffStr(header_p, this.getClass(), "header_p");
+    public void setEnddate_p(Date enddate_p) {
+        this.enddate_p = null == enddate_p ? EntityUtil.stringToDate("1900-01-01") : enddate_p;
     }
 }

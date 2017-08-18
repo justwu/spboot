@@ -1,6 +1,6 @@
 package com.just.dao.local;
 
-import com.just.pojo.Sbman;
+import com.just.entity.Sbman;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
