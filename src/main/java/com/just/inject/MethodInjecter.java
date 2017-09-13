@@ -1,6 +1,8 @@
 package com.just.inject;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -8,6 +10,8 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.lang.reflect.Method;
 
 /**
  * Created by flyhigh on 2017/6/9.
@@ -60,23 +64,27 @@ public class MethodInjecter {
     }
 
     @Pointcut("within(com.just.controller.*)")   //切点:所有接口的调用都拦截
-    public void controlerCut() {
+    public void controllerCut() {
 
     }
 
-    @Around("controlerCut()")
-    public Object controlSpeed(ProceedingJoinPoint joinPoint) {//注意. around拦截要返回拦截方法的返回值.否则会出现没结果返回的情况
+    @AfterThrowing(value = "controllerCut()", throwing = "e")
+    public void controlException(Exception e) {
+        logger.info("抛出异常之后.执行.记录下啊什么的");
+    }
+
+    @Around("controllerCut()")
+    public Object controlSpeed(ProceedingJoinPoint joinPoint) throws Throwable {//注意. around拦截要返回拦截方法的返回值.否则会出现没结果返回的情况
         long s1 = System.currentTimeMillis();
-        Object object = null;
-        try {
+        Object object = joinPoint.proceed();
+       /* try {
             object = joinPoint.proceed();
-        } catch (Throwable throwable) {
+        } catch (Throwable throwable) {  //处理异常
             logger.warn("出错咯");
             throwable.printStackTrace();
-        }
 
+        }*/
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-
         logger.info("方法" + methodSignature.getMethod().getName() + "执行时间 " + (System.currentTimeMillis() - s1) + "ms ! ");
 //        System.out.println("方法" + methodSignature.getMethod().getName() + "执行时间 " + (System.currentTimeMillis() - s1) + "ms !");
         return object;
@@ -85,21 +93,43 @@ public class MethodInjecter {
 
 
     @Around("speedCut()")
-    public Object printSpeed(ProceedingJoinPoint joinPoint) {//注意. around拦截要返回拦截方法的返回值.否则会出现没结果返回的情况
+    public Object logService(ProceedingJoinPoint joinPoint) throws Throwable {//注意. around拦截要返回拦截方法的返回值.否则会出现没结果返回的情况
         long s1 = System.currentTimeMillis();
         Object object = null;
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         try {
             object = joinPoint.proceed();
         } catch (Throwable throwable) {
-            throwable.printStackTrace();
+//            throwable.printStackTrace();
+            //记录异常
+            logger.warn("方法{}执行出错. 执行时间{}", methodSignature.getMethod().getName(), (System.currentTimeMillis() - s1) + "ms !");
+
+            throw throwable;
         }
+        logger.info("方法{} 执行时间{}", methodSignature.getMethod().getName(), (System.currentTimeMillis() - s1) + "ms !");
 
-        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-
-
-        System.out.println("方法" + methodSignature.getMethod().getName() + "执行时间 " + (System.currentTimeMillis() - s1) + "ms !");
         return object;
 
+    }
+
+    public static String getServiceMthodDescription(JoinPoint joinPoint)
+            throws Exception {
+        String targetName = joinPoint.getTarget().getClass().getName();
+        String methodName = joinPoint.getSignature().getName();
+        Object[] arguments = joinPoint.getArgs();
+        Class targetClass = Class.forName(targetName);
+        Method[] methods = targetClass.getMethods();
+        String description = "";
+        for (Method method : methods) {
+            if (method.getName().equals(methodName)) {
+                Class[] clazzs = method.getParameterTypes();
+                if (clazzs.length == arguments.length) {
+                    description = "xxx"; //method.getAnnotation(SystemServiceLog. class).description();
+                    break;
+                }
+            }
+        }
+        return description;
     }
 
 }

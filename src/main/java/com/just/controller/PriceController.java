@@ -1,7 +1,7 @@
 package com.just.controller;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.just.exception.DefindedException;
+import com.just.exception.DefinedException;
 import com.just.pojo.otarequest.WxRequestForm;
 import com.just.service.api.OtaService;
 import org.slf4j.Logger;
@@ -46,7 +46,7 @@ public class PriceController {
         ArrayNode result = null;
         try {
             result = otaService.wxQuerySections(new WxRequestForm());
-        } catch (DefindedException e) {
+        } catch (DefinedException e) {
             e.printStackTrace();
         }
 

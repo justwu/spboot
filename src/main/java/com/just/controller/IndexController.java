@@ -34,7 +34,7 @@ public class IndexController {
     @RequestMapping(value = "/rs", method = RequestMethod.GET)
     public String rs(Model model) {
         model.addAttribute("name", "Dear");
-        logger.info("访问rs方法");
-        return "price/order";
+        logger.info("访问rs方法啊啊啊111");
+        return "/price/priceorder";   //返回的是视图路径 templates目录是第一层方法
     }
 }

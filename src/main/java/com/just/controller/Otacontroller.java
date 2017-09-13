@@ -1,9 +1,9 @@
 package com.just.controller;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.just.exception.DefindedException;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.just.exception.DefinedException;
 import com.just.pojo.otarequest.WxRequestForm;
-import com.just.pojo.otaresponse.OtaResult;
 import com.just.service.api.OtaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,30 +25,17 @@ public class Otacontroller {
     OtaService otaService;
 
     @RequestMapping("/av")
-    public ArrayNode wxQueryAvailProduct(@RequestBody WxRequestForm requestForm) {
-        OtaResult otaResult = new OtaResult();
-        ArrayNode result = null;
-        try {
-            result = otaService.wxQuerySections(requestForm);
-            String aa = otaService.wxQueryRoomtypes(requestForm);
-            logger.info(result + "  " + aa);
-        } catch (DefindedException e) {
-            e.printStackTrace();
-        }
-//        JSONPObject object=
-        otaResult.setResultcode("999");
-        otaResult.setResultdesc("神秘嘉宾");
+    public ArrayNode wxQueryAvailProduct(@RequestBody WxRequestForm requestForm) throws DefinedException {
+        ArrayNode result = otaService.wxQuerySections(requestForm);
         return result;
     }
 
-    @RequestMapping("/test")
-    public OtaResult wxtest() {
-        otaService.test();
-        OtaResult otaResult = new OtaResult();
-//        JSONPObject object=
-        otaResult.setResultcode("999");
-        otaResult.setResultdesc("神秘嘉宾");
-        return otaResult;
+    @RequestMapping("/roomtype")
+    public ObjectNode wxQueryRoomtypes(@RequestBody WxRequestForm requestForm) throws DefinedException {
+        ObjectNode result = otaService.wxQueryRoomtypes(requestForm);
+        otaService.testError();
+        logger.info("没事没事");
+        return result;
     }
 
 

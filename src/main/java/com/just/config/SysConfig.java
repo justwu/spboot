@@ -1,5 +1,6 @@
 package com.just.config;
 
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -15,7 +16,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @ComponentScan("com.just")  //如果扫描到有@Component @Controller @Service等这些注解的类，则把这些类注册为bean
 @EnableAsync
 @EnableWebMvc
+@EnableCaching
 public class SysConfig extends WebMvcConfigurerAdapter {
+
 
 
    /* @Override

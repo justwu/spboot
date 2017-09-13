@@ -1,0 +1,6 @@
+<ehcache>
+    <cache name="sections" maxEntriesLocalHeap="200" timeToLiveSeconds="10"/>
+    <cache name="roomtypes" maxEntriesLocalHeap="200" timeToLiveSeconds="10"/>
+    <cache name="hotels" maxEntriesLocalHeap="200" timeToLiveSeconds="10"/>
+    <cache name="ratecodes" maxEntriesLocalHeap="200" timeToLiveSeconds="10"/>
+</ehcache>
