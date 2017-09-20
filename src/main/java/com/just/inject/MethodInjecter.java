@@ -102,7 +102,7 @@ public class MethodInjecter {
         } catch (Throwable throwable) {
 //            throwable.printStackTrace();
             //记录异常
-            logger.warn("方法{}执行出错. 执行时间{}", methodSignature.getMethod().getName(), (System.currentTimeMillis() - s1) + "ms !");
+            logger.error("方法{}执行出错. 执行时间{} {}", methodSignature.getMethod().getName(), (System.currentTimeMillis() - s1) + "ms !", throwable);
 
             throw throwable;
         }

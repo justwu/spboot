@@ -4,10 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.just.dao.bean.OtaRepositoryImpl;
+import com.just.entity.Col_rs;
 import com.just.entity.Section;
 import com.just.exception.DefinedException;
+import com.just.pojo.otarequest.WxOrderForm;
 import com.just.pojo.otarequest.WxRequestForm;
 import com.just.service.api.OtaService;
+import com.just.utils.CalculateDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +52,14 @@ public class OtaServiceImpl implements OtaService {
         o.put("xxx", "111");
         o.put("rrr", "222");
         return o;
+    }
+
+    public Col_rs wxCreateOrder(WxOrderForm orderForm) throws DefinedException {
+        Col_rs rs = new Col_rs();
+        rs.setArrdate_p(CalculateDate.stringToDate("2017-10-01"));
+        rs.setEnddate_p(CalculateDate.stringToDate("2107-10-22"));
+        rs.setName_p("999");
+        return rs;
     }
 
     public void testError() throws DefinedException {

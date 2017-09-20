@@ -24,4 +24,10 @@ public class OtaRepositoryImpl {
     }
 
 
+    @Cacheable
+    public List<Object[]> getChanneldet() {
+        return null;
+    }
+
+
 }

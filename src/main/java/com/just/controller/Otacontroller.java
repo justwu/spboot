@@ -20,6 +20,8 @@ public class Otacontroller {
 
     private Logger logger = LoggerFactory.getLogger(Otacontroller.class);
 
+    private Logger justloger = LoggerFactory.getLogger("just");
+
     @Autowired
     @Qualifier("OtaServiceImpl")
     OtaService otaService;
@@ -33,6 +35,9 @@ public class Otacontroller {
     @RequestMapping("/roomtype")
     public ObjectNode wxQueryRoomtypes(@RequestBody WxRequestForm requestForm) throws DefinedException {
         ObjectNode result = otaService.wxQueryRoomtypes(requestForm);
+        if (justloger != null) {
+            justloger.debug("hello~ just coming ");
+        }
         otaService.testError();
         logger.info("没事没事");
         return result;
