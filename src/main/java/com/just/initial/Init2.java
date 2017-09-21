@@ -13,12 +13,12 @@ import org.springframework.stereotype.Component;
 @Order(value = 2)
 public class Init2 implements CommandLineRunner {
 
-    private Logger logger = LoggerFactory.getLogger(Init2.class);
+    private Logger logger = LoggerFactory.getLogger("JUSTOUT");
 
     @Override
     public void run(String... strings) throws Exception {
 
-        logger.info(this.getClass().getName() + " 启动执行running ");
+        logger.info(this.getClass().getName() + " init2启动完成 ");
     }
 
 }

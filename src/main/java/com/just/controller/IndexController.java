@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Created by flyhigh on 2017/6/11.
  */
 @Controller
-@RequestMapping("/")
 public class IndexController {
     @Value("${r8path}")
     private String r8pth;
@@ -35,6 +34,6 @@ public class IndexController {
     public String rs(Model model) {
         model.addAttribute("name", "Dear");
         logger.info("访问rs方法啊啊啊111");
-        return "/price/priceorder";   //返回的是视图路径 templates目录是第一层方法
+        return "price/priceorder";   //返回的是视图路径 templates目录是第一层方法
     }
 }

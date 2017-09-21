@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<configuration>
+<configuration scan="true" scanPeriod="60 seconds">
     <property name="LOGDIR" value="d:/ZJLOG"/>
     <springProperty scope="context" name="logLevel" source="log.level"/>
     <springProperty scope="context" name="logPath" source="log.path"/>
+    <springProperty scope="context" name="splogLevel" source="log.splevel"/>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -14,7 +15,7 @@
     <appender name="FILEINFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${logPath}/infologs/%d{yyyy-MM-dd}.log</fileNamePattern>
-            <MaxHistory>60</MaxHistory>
+            <MaxHistory>10</MaxHistory>
         </rollingPolicy>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern>
@@ -27,6 +28,7 @@
     <appender name="FILEERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${logPath}/errorlogs/error-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <MaxHistory>10</MaxHistory>
         </rollingPolicy>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern>
@@ -52,6 +54,9 @@
     <logger name="com.just" level="ERROR" additivity="false">
         <appender-ref ref="FILEERROR"/>
     </logger>
+
+    <logger name="org.thymeleaf" level="WARN"/>
+    <logger name="org.springframework.boot" level="${splogLevel}"/>
 
     <logger name="just" level="DEBUG" additivity="false">
         <appender-ref ref="JUSTOUT"/>
